@@ -52,6 +52,10 @@ public class Carros implements Serializable{
     @NotNull(message = "No puede estar vacio")
     private Map<String,String> marca;
    
+       /**
+     * lista que guarda los datos creados
+     */
+    private List carros; 
     
     
      /**
@@ -64,13 +68,7 @@ public class Carros implements Serializable{
     @Min(value = 1995, message = "No puede ser menor al año 1995") @Max(value = 2019, message = "No puede ser mayor al año actual")
     private Integer modelo;
     
-    
-    /**
-     * lista que guarda los datos creados
-     */
-    private List carros;  
-    
-    
+     
     /**
      * Creates a new instance of Carros
      */
@@ -90,7 +88,6 @@ public class Carros implements Serializable{
         marca.put("Ford","Ford");
         marca.put("Volkswagen","Volkswagen");
     }
-    
     
     /**
      * metodo que llena la lista con los datos de las marcas

@@ -19,33 +19,67 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 /**
  *
- * @author michl
+ * @author Michaell Cardenas
+ * clase controlador de la vista
  */
 @Named
 @ViewScoped
 public class Carros implements Serializable{
 
+    
+    /**
+     * atributo
+     * guarda el nombre que se le de al vehiculo no puede ser nulo 
+     * tiene una longitud definida
+     */
     @NotNull(message = "No puede estar vacio")
     @Size(min = 3,max = 40, message = "entre 3 y 40 caracteres")
     private String nombre;
     
     
+     /**
+     * atributo
+     * guarda la marca de la lista disponible 
+     * 
+     */
     private String claveMarca;
+    
+     /**
+     * atributo
+     * guarda la lista de marcas
+     * no puede ser nulaa
+     */
     @NotNull(message = "No puede estar vacio")
     private Map<String,String> marca;
    
     
+    
+     /**
+     * atributo
+     * guarda el modelo que se le de al vehiculo 
+     * acepta años desde 1995 hasta el 2019
+     * no puede estar nulo
+     */
     @NotNull(message = "No puede estar vacio")
     @Min(value = 1995, message = "No puede ser menor al año 1995") @Max(value = 2019, message = "No puede ser mayor al año actual")
     private Integer modelo;
     
+    
+    /**
+     * lista que guarda los datos creados
+     */
     private List carros;  
+    
+    
     /**
      * Creates a new instance of Carros
      */
     public Carros() {
     }
     
+    /**
+     * metodo que inicializa los atributos
+     */
     @PostConstruct
     public void init(){
         marca = new HashMap<String,String>();
@@ -57,6 +91,10 @@ public class Carros implements Serializable{
         marca.put("Volkswagen","Volkswagen");
     }
     
+    
+    /**
+     * metodo que llena la lista con los datos de las marcas
+     */
     public void llenarLista(){
         Carros datos = new Carros();
         datos.nombre = nombre;
@@ -70,6 +108,11 @@ public class Carros implements Serializable{
         carros.add(datos);
     }
     
+    
+    /**
+     * muestra la tabla si hay datos o no
+     * @return el valor booleano de la lista vacia o no
+     */
     public boolean enabletable() {
         if(carros.isEmpty())
             return false;
@@ -77,6 +120,23 @@ public class Carros implements Serializable{
             return true;
     }
     
+    
+    /**
+     * muestra el panel si hay datos o no
+     * @return el valor booleano de la lista vacia o no
+     */
+    public boolean enablePanel() {
+        if(carros.isEmpty())
+            return false;
+        else
+            return true;
+    }
+    
+    
+    /**
+     * metodos publicos para acceder a atributos privados
+     * @return 
+     */
     public String getNombre() {
         return nombre;
     }

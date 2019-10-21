@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+            <h:form>
+                    <p:panel header="Registro de vehiculos">
+                        <p:messages/>
+                        <h:panelGrid columns="4" cellpadding="5">
+                            <p:outputLabel for="@next" value="Nombre: " />
+                            <p:inputText value="#{carros.nombre}" label="Nombre"/>
+                            <p:message for="@previous" />
+                            <br/>
+
+                            <p:outputLabel for="car" value="Marca: " />
+                            <p:selectOneMenu id="car" value="#{carros.claveMarca}" required="true" requiredMessage="seleccione uno">
+                                <f:selectItem itemLabel="Seleccione uno" itemValue="" />
+                                <f:selectItems value="#{carros.marca}"/>
+                            </p:selectOneMenu>
+                            <p:message for="@previous"/>
+                            <br/>
+
+                           <p:outputLabel for="@next" value="Modelo: " />
+                           <p:inputText value="#{carros.modelo}" label="Modelo"/>
+                           <p:message for="@previous" />
+                        </h:panelGrid>
+                        <p:commandButton id="ajax" value="GUARDAR" validateClient="true" action="#{carros.llenarLista()}" update="tabla_Datos"/>
+                    </p:panel>
+                
+                    <br/><br/>
+                    
+                    <p:panel id="tabla_Datos">
+                        <p:dataTable id="datos" var="car" value="#{carros.carros}" rows="10" rendered="#{carros.enabletable()}"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{car.nombre}" />
+                            </p:column>
+
+                            <p:column headerText="Marca">
+                                <h:outputText value="#{car.claveMarca}" />
+                            </p:column>
+
+                            <p:column headerText="Modelo">
+                                <h:outputText value="#{car.modelo}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+            </h:form>
+    </h:body>
+</html>
+

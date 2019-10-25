@@ -11,12 +11,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.primefaces.event.RowEditEvent;
 /**
  *
  * @author Michaell Cardenas
@@ -55,7 +58,9 @@ public class Carros implements Serializable{
        /**
      * lista que guarda los datos creados
      */
-    private List carros; 
+    private List<Carros> carros; 
+    private List<Carros> carrosFiltrados; 
+    
     
     
      /**
@@ -81,7 +86,7 @@ public class Carros implements Serializable{
     @PostConstruct
     public void init(){
         marca = new HashMap<String,String>();
-        carros = new ArrayList<Carros>();
+        carros = new ArrayList();
         marca.put("BMW","BMW");
         marca.put("Toyota","Toyota");
         marca.put("Nissan","Nissan");
@@ -105,7 +110,16 @@ public class Carros implements Serializable{
         carros.add(datos);
     }
     
-    
+     public void onRowEdit(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Car Edited", ((Carros) event.getObject()).getNombre());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", ((Carros) event.getObject()).getNombre());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+         
     /**
      * muestra la tabla si hay datos o no
      * @return el valor booleano de la lista vacia o no
@@ -173,4 +187,14 @@ public class Carros implements Serializable{
     public void setMarca(Map<String, String> marca) {
         this.marca = marca;
     }    
+
+    public List<Carros> getCarrosFiltrados() {
+        return carrosFiltrados;
+    }
+
+    public void setCarrosFiltrados(List<Carros> carrosFiltrados) {
+        this.carrosFiltrados = carrosFiltrados;
+    }
+    
+    
 }

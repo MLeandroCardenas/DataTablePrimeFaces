@@ -37,7 +37,9 @@
                     <br/><br/>
                     
                     <p:panel id="tabla_Datos" visible="#{carros.enablePanel()}">
-                        <p:dataTable id="datos" var="car" value="#{carros.carros}" rows="10" 
+                        <p:dataTable id="datos" 
+                         var="car" value="#{carros.carros}" 
+                         rows="10" 
                          rendered="#{carros.enabletable()}"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
@@ -48,25 +50,65 @@
                          {RowsPerPageDropdown}"
                          emptyMessage="No hay registros"
                          widgetVar="carsTable"
-                         filteredValue="#{carros.carros}">
-                            
-                            <p:column headerText="Nombre" filterBy="#{car.nombre}" filterMatchMode="contains">
+                         filteredValue="#{carros.carrosFiltrados}">
+                          
+                     <!--    <p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}"/>
+                         <p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}"/> -->
+                         
+                            <p:column filterBy="#{car.nombre}" headerText="Nombre" filterMatchMode="contains">
                                 <h:outputText value="#{car.nombre}" />
                             </p:column>
-                            
-                           <p:column filterBy="#{car.claveMarca}" headerText="Marca" filterMatchMode="exact">
+                         
+                          <!--  <p:column headerText="Nombre">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{car.nombre}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{car.nombre}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                             </p:column> -->
+  
+                            <p:column filterBy="#{car.claveMarca}" headerText="Marca" filterMatchMode="exact">
                                 <f:facet name="filter">
                                     <p:selectOneMenu onchange="PF('carsTable').filter()" styleClass="custom-filter">
-                                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/> 
-                                        <f:selectItems value="#{carros.marca}"/>
+                                        <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
+                                        <f:selectItems value="#{carros.marca}" />
                                     </p:selectOneMenu>
                                 </f:facet>
-                                <h:outputText value="#{car.claveMarca}" />
+                                <h:outputText value="#{car.claveMarca}" /> 
                             </p:column>
-
-                            <p:column headerText="Modelo" filterBy="#{car.modelo}" filterMatchMode="equals">
-                                <h:outputText value="#{car.modelo}" />
+                         
+                     <!--    <p:column headerText="Marca">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{car.claveMarca}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{car.claveMarca}" style="width:100%">
+                                        <f:selectItems value="#{carros.marca}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>-->
+                            
+                            
+                            
+                            <p:column filterBy="#{car.modelo}" headerText="Modelo" filterMatchMode="lte">
+                                <f:facet name="filter">
+                                    <p:spinner min="1995" max="2019" onchange="PF('carsTable').filter()" styleClass="year-spinner custom-filter">
+                                        <f:converter converterId="javax.faces.Integer" />
+                                    </p:spinner>
+                                </f:facet>
+                                <h:outputText value="#{car.modelo}" />                             
                             </p:column>
+                         
+                       <!--  <p:column headerText="Modelo">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{car.modelo}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{car.modelo}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column> -->
+                         
+                    <!--     <p:column style="width:35px">
+                            <p:rowEditor />
+                        </p:column> -->
+                         
                         </p:dataTable>
                     </p:panel>
             </h:form>
